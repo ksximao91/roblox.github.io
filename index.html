@@ -360,4 +360,27 @@ display:none;
 </div>
 
 </body>
+  <script>
+function showRegister(){
+
+document.querySelector(".login").innerHTML = `
+<h1>注册账号</h1>
+
+<input class="input" placeholder="用户名">
+
+<input class="input" placeholder="邮箱">
+
+<input class="input" type="password" placeholder="密码">
+
+<button class="login-btn" onclick="alert('注册成功')">
+注册
+</button>
+
+<div class="signup">
+<a href="#" onclick="location.reload()">返回登录</a>
+</div>
+`;
+
+}
+</script>
 </html>
