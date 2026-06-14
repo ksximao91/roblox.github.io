@@ -1,1 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Portal</title>
 
+<style>
+:root{
+--bg:#0b0d12;
+--card:#23262f;
+--card2:#2c313c;
+--text:#fff;
+--border:#4c5263;
+--blue:#2f6df6;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+background:var(--bg);
+overflow:hidden;
+height:100vh;
+color:var(--text);
+}
+
+.topbar{
+height:72px;
+background:#141821;
+display:flex;
+align-items:center;
+padding:0 24px;
+position:fixed;
+width:100%;
+z-index:100;
+backdrop-filter:blur(12px);
+}
+
+.logo{
+width:34px;
+height:34px;
+background:white;
+transform:rotate(18deg);
+border-radius:3px;
+position:relative;
+}
+
+.logo:after{
+content:"";
+position:absolute;
+width:10px;
+height:10px;
+background:#141821;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+}
+
+.menu{
+display:flex;
+gap:40px;
+margin-left:35px;
+font-size:18px;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+}
+
+.search{
+margin-left:auto;
+}
+
+.search input{
+width:260px;
+height:42px;
+background:#202633;
+border:none;
+border-radius:10px;
+padding:0 15px;
+color:white;
+}
+
+.register{
+margin-left:15px;
+height:42px;
+padding:0 20px;
+background:var(--blue);
+border:none;
+border-radius:10px;
+color:white;
+cursor:pointer;
+}
+
+.bg{
+position:absolute;
+inset:0;
+overflow:hidden;
+}
+
+.card{
+position:absolute;
+width:220px;
+height:300px;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 0 40px rgba(0,0,0,.4);
+animation:float 12s infinite ease-in-out;
+}
+
+.card img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.card:nth-child(1){
+left:5%;
+top:18%;
+transform:rotate(-12deg);
+}
+
+.card:nth-child(2){
+left:22%;
+top:45%;
+transform:rotate(10deg);
+}
+
+.card:nth-child(3){
+right:12%;
+top:18%;
+transform:rotate(-10deg);
+}
+
+.card:nth-child(4){
+right:22%;
+bottom:8%;
+transform:rotate(12deg);
+}
+
+.card:nth-child(5){
+left:50%;
+bottom:0;
+transform:translateX(-50%) rotate(-6deg);
+}
+
+@keyframes float{
+50%{
+transform:translateY(-15px);
+}
+}
+
+.login{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-45%);
+width:500px;
+background:rgba(35,38,47,.95);
+backdrop-filter:blur(16px);
+padding:35px;
+border-radius:18px;
+box-shadow:0 20px 60px rgba(0,0,0,.5);
+z-index:50;
+}
+
+.login h1{
+text-align:center;
+margin-bottom:25px;
+font-size:46px;
+}
+
+.input{
+width:100%;
+height:54px;
+background:var(--card2);
+border:1px solid var(--border);
+border-radius:12px;
+padding:0 16px;
+color:white;
+font-size:17px;
+margin-bottom:15px;
+}
+
+.login-btn{
+width:100%;
+height:56px;
+background:transparent;
+border:2px solid white;
+border-radius:12px;
+color:white;
+font-size:20px;
+cursor:pointer;
+transition:.3s;
+}
+
+.login-btn:hover{
+background:white;
+color:black;
+}
+
+.link{
+text-align:center;
+margin:22px 0;
+color:#d0d0d0;
+}
+
+.divider{
+height:1px;
+background:#444;
+margin:20px 0;
+}
+
+.gray{
+width:100%;
+height:52px;
+background:#40485a;
+border:none;
+border-radius:12px;
+color:white;
+margin-bottom:12px;
+cursor:pointer;
+}
+
+.signup{
+margin-top:25px;
+text-align:center;
+font-size:18px;
+}
+
+.signup a{
+color:white;
+font-weight:bold;
+text-decoration:none;
+}
+
+@media(max-width:700px){
+
+.login{
+width:92%;
+}
+
+.menu{
+display:none;
+}
+
+.search input{
+width:140px;
+}
+
+.card{
+display:none;
+}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+<div class="logo"></div>
+
+<nav class="menu">
+<a href="#">排行榜</a>
+<a href="#">商城</a>
+<a href="#">创作</a>
+<a href="#">积分</a>
+</nav>
+
+<div class="search">
+<input placeholder="搜索">
+</div>
+
+<button class="register">注册</button>
+</header>
+
+<div class="bg">
+
+<div class="card">
+<img src="https://picsum.photos/300/400?1">
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/300/400?2">
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/300/400?3">
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/300/400?4">
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/300/400?5">
+</div>
+
+</div>
+
+<div class="login">
+
+<h1>登录 Game Portal</h1>
+
+<input class="input" placeholder="用户名 / 邮箱">
+
+<input class="input" type="password" placeholder="密码">
+
+<button class="login-btn">
+登录
+</button>
+
+<div class="link">
+忘记密码？
+</div>
+
+<div class="divider"></div>
+
+<button class="gray">
+发送验证码
+</button>
+
+<button class="gray">
+快速登录
+</button>
+
+<div class="signup">
+没有账号？ <a href="#">立即注册</a>
+</div>
+
+</div>
+
+</body>
+</html>
