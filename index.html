@@ -3,384 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Portal</title>
-
+<title>智聊 AI 自动回复</title>
 <style>
 :root{
---bg:#0b0d12;
---card:#23262f;
---card2:#2c313c;
---text:#fff;
---border:#4c5263;
---blue:#2f6df6;
+  --bg:#07130f;
+  --panel:#f7f8fa;
+  --panel-dark:#111b16;
+  --wechat:#07c160;
+  --wechat-dark:#05a955;
+  --bubble:#ffffff;
+  --bubble-ai:#eef7f1;
+  --muted:#718096;
+  --text:#17231d;
+  --line:#dce7df;
+  --danger:#ef4444;
+  --shadow:0 24px 70px rgba(0,0,0,.28);
 }
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
 body{
-background:var(--bg);
-overflow:hidden;
-height:100vh;
-color:var(--text);
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left,rgba(7,193,96,.45),transparent 34rem),
+    radial-gradient(circle at bottom right,rgba(38,166,154,.32),transparent 30rem),
+    linear-gradient(135deg,#06120e,#102119 54%,#07130f);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
 }
-
-.topbar{
-height:72px;
-background:#141821;
-display:flex;
-align-items:center;
-padding:0 24px;
-position:fixed;
-width:100%;
-z-index:100;
-backdrop-filter:blur(12px);
+.app{
+  width:min(1180px,100%);
+  height:min(860px,calc(100vh - 44px));
+  min-height:620px;
+  background:rgba(247,248,250,.96);
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:30px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:320px 1fr;
 }
-
+.sidebar{
+  background:#eef3ef;
+  border-right:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+.brand{
+  height:86px;
+  padding:18px 20px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+}
 .logo{
-width:34px;
-height:34px;
-background:white;
-transform:rotate(18deg);
-border-radius:3px;
-position:relative;
+  width:48px;height:48px;border-radius:16px;
+  display:grid;place-items:center;
+  color:#fff;font-size:24px;font-weight:800;
+  background:linear-gradient(135deg,var(--wechat),#00a884);
+  box-shadow:0 10px 20px rgba(7,193,96,.24);
 }
-
-.logo:after{
-content:"";
-position:absolute;
-width:10px;
-height:10px;
-background:#141821;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-}
-
-.menu{
-display:flex;
-gap:40px;
-margin-left:35px;
-font-size:18px;
-}
-
-.menu a{
-color:white;
-text-decoration:none;
-}
-
-.search{
-margin-left:auto;
-}
-
-.search input{
-width:260px;
-height:42px;
-background:#202633;
-border:none;
-border-radius:10px;
-padding:0 15px;
-color:white;
-}
-
-.register{
-margin-left:15px;
-height:42px;
-padding:0 20px;
-background:var(--blue);
-border:none;
-border-radius:10px;
-color:white;
-cursor:pointer;
-}
-
-.bg{
-position:absolute;
-inset:0;
-overflow:hidden;
-}
-
-.card{
-position:absolute;
-width:220px;
-height:300px;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 0 40px rgba(0,0,0,.4);
-animation:float 12s infinite ease-in-out;
-}
-
-.card img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.card:nth-child(1){
-left:5%;
-top:18%;
-transform:rotate(-12deg);
-}
-
-.card:nth-child(2){
-left:22%;
-top:45%;
-transform:rotate(10deg);
-}
-
-.card:nth-child(3){
-right:12%;
-top:18%;
-transform:rotate(-10deg);
-}
-
-.card:nth-child(4){
-right:22%;
-bottom:8%;
-transform:rotate(12deg);
-}
-
-.card:nth-child(5){
-left:50%;
-bottom:0;
-transform:translateX(-50%) rotate(-6deg);
-}
-
-@keyframes float{
-50%{
-transform:translateY(-15px);
-}
-}
-
-.login{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-45%);
-width:500px;
-background:rgba(35,38,47,.95);
-backdrop-filter:blur(16px);
-padding:35px;
-border-radius:18px;
-box-shadow:0 20px 60px rgba(0,0,0,.5);
-z-index:50;
-}
-
-.login h1{
-text-align:center;
-margin-bottom:25px;
-font-size:46px;
-}
-
-.input{
-width:100%;
-height:54px;
-background:var(--card2);
-border:1px solid var(--border);
-border-radius:12px;
-padding:0 16px;
-color:white;
-font-size:17px;
-margin-bottom:15px;
-}
-
-.login-btn{
-width:100%;
-height:56px;
-background:transparent;
-border:2px solid white;
-border-radius:12px;
-color:white;
-font-size:20px;
-cursor:pointer;
-transition:.3s;
-}
-
-.login-btn:hover{
-background:white;
-color:black;
-}
-
-.link{
-text-align:center;
-margin:22px 0;
-color:#d0d0d0;
-}
-
-.divider{
-height:1px;
-background:#444;
-margin:20px 0;
-}
-
-.gray{
-width:100%;
-height:52px;
-background:#40485a;
-border:none;
-border-radius:12px;
-color:white;
-margin-bottom:12px;
-cursor:pointer;
-}
-
-.signup{
-margin-top:25px;
-text-align:center;
-font-size:18px;
-}
-
-.signup a{
-color:white;
-font-weight:bold;
-text-decoration:none;
-}
-
-@media(max-width:700px){
-
-.login{
-width:92%;
-}
-
-.menu{
-display:none;
-}
-
-.search input{
-width:140px;
-}
-
-.card{
-display:none;
-}
-}
+.brand h1{font-size:21px;line-height:1.1}.brand p{font-size:12px;color:var(--muted);margin-top:4px}
+.panel{padding:16px 18px;border-bottom:1px solid var(--line)}
+.panel-title{font-size:13px;color:#4b6357;font-weight:800;margin-bottom:10px;letter-spacing:.04em}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px}.chip{
+  border:1px solid #cbd8d0;background:#fff;border-radius:999px;padding:8px 11px;font-size:13px;cursor:pointer;transition:.2s;
+}.chip:hover,.chip.active{background:var(--wechat);border-color:var(--wechat);color:#fff;transform:translateY(-1px)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;
+}.stat strong{display:block;font-size:24px}.stat span{font-size:12px;color:var(--muted)}
+.history{flex:1;overflow:auto;padding:14px 12px}.history-item{
+  width:100%;border:0;background:transparent;text-align:left;padding:12px;border-radius:16px;cursor:pointer;margin-bottom:6px;
+}.history-item:hover,.history-item.active{background:#fff}.history-item strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.history-item span{display:block;font-size:12px;color:var(--muted);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.actions{padding:14px 18px;border-top:1px solid var(--line);display:grid;gap:10px}.btn{
+  border:0;border-radius:14px;padding:12px 14px;font-weight:800;cursor:pointer;transition:.2s;font-size:14px;
+}.btn.primary{background:var(--wechat);color:#fff}.btn.primary:hover{background:var(--wechat-dark)}.btn.ghost{background:#fff;color:#21372b;border:1px solid var(--line)}.btn.danger{background:#fff1f1;color:var(--danger);border:1px solid #ffd3d3}
+.chat{display:flex;flex-direction:column;min-width:0;background:linear-gradient(#f9fbfa,#eef3ef)}
+.chat-header{height:86px;padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.72);backdrop-filter:blur(16px)}
+.assistant{display:flex;align-items:center;gap:12px}.avatar{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#111b16,#1f3b2d);color:#fff;display:grid;place-items:center;font-size:22px}.status{font-size:13px;color:var(--muted);margin-top:4px}.status i{display:inline-block;width:8px;height:8px;background:var(--wechat);border-radius:50%;margin-right:6px;box-shadow:0 0 0 6px rgba(7,193,96,.12)}
+.header-tools{display:flex;gap:10px;align-items:center}.search{border:1px solid var(--line);border-radius:14px;padding:11px 13px;width:220px;background:#fff}
+.messages{flex:1;overflow:auto;padding:24px;scroll-behavior:smooth}.message{display:flex;gap:10px;margin:0 0 18px;align-items:flex-end}.message.user{justify-content:flex-end}.bubble{
+  max-width:min(660px,78%);padding:14px 16px;border-radius:18px;background:var(--bubble);box-shadow:0 8px 24px rgba(18,35,27,.07);line-height:1.65;white-space:pre-wrap;word-break:break-word;
+}.ai .bubble{background:var(--bubble-ai);border-bottom-left-radius:6px}.user .bubble{background:var(--wechat);color:#fff;border-bottom-right-radius:6px}.time{font-size:11px;color:#8a9a91;margin-top:5px}.typing{display:none;margin:0 0 18px 56px;color:var(--muted);font-size:13px}.typing.show{display:block}.dot{display:inline-block;width:6px;height:6px;margin-left:4px;background:#8fa99a;border-radius:50%;animation:bounce 1s infinite alternate}.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}@keyframes bounce{to{transform:translateY(-5px);opacity:.45}}
+.quick{padding:0 24px 14px;display:flex;gap:8px;flex-wrap:wrap}.quick button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;color:#315143}
+.composer{padding:16px 24px 22px;background:rgba(255,255,255,.82);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:12px}.composer textarea{height:58px;max-height:150px;resize:none;border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff;font-size:15px;outline:none}.composer textarea:focus{border-color:var(--wechat);box-shadow:0 0 0 4px rgba(7,193,96,.1)}.send{width:96px;border-radius:18px;background:var(--wechat);color:#fff;border:0;font-size:16px;font-weight:900;cursor:pointer}.send:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:850px){body{padding:0}.app{height:100vh;min-height:100vh;border-radius:0;grid-template-columns:1fr}.sidebar{display:none}.search{display:none}.messages{padding:18px}.bubble{max-width:86%}.composer{padding:12px;grid-template-columns:1fr 74px}.chat-header{padding:14px 16px}}
 </style>
 </head>
 <body>
-
-<header class="topbar">
-<div class="logo"></div>
-
-<nav class="menu">
-<a href="#">排行榜</a>
-<a href="#">商城</a>
-<a href="#">创作</a>
-<a href="#">积分</a>
-</nav>
-
-<div class="search">
-<input placeholder="搜索">
-</div>
-
-<select class="language-select" onchange="changeLanguage(this.value)">
-<option>中文</option>
-<option>English</option>
-<option>日本語</option>
-<option>한국어</option>
-<option>Français</option>
-<option>Deutsch</option>
-<option>Español</option>
-<option>Português</option>
-<option>Italiano</option>
-<option>Русский</option>
-<option>العربية</option>
-<option>Türkçe</option>
-<option>Nederlands</option>
-<option>Polski</option>
-<option>ไทย</option>
-<option>Tiếng Việt</option>
-<option>Bahasa Indonesia</option>
-<option>हिन्दी</option>
-<option>Українська</option>
-<option>Svenska</option>
-</select>
-
-<button class="register">注册</button>
-</header>
-
-<div class="bg">
-
-<div class="card">
-<img src="https://picsum.photos/300/400?1">
-</div>
-
-<div class="card">
-<img src="https://picsum.photos/300/400?2">
-</div>
-
-<div class="card">
-<img src="https://picsum.photos/300/400?3">
-</div>
-
-<div class="card">
-<img src="https://picsum.photos/300/400?4">
-</div>
-
-<div class="card">
-<img src="https://picsum.photos/300/400?5">
-</div>
-
-</div>
-
-<div class="login">
-
-<h1>登录 Game Portal</h1>
-
-<input class="input" placeholder="用户名 / 邮箱">
-
-<input class="input" type="password" placeholder="密码">
-
-<button class="login-btn">
-登录
-</button>
-
-<div class="link">
-忘记密码？
-</div>
-
-<div class="divider"></div>
-
-<button class="gray">
-发送验证码
-</button>
-
-<button class="gray">
-快速登录
-</button>
-
-<div class="signup">
-没有账号？
-<a href="#" onclick="showRegister()">立即注册</a>
-</div>
-
-</div>
-
-</body>
-  <script>
-function showRegister(){
-
-document.querySelector(".login").innerHTML = `
-<h1>注册账号</h1>
-
-<input class="input" placeholder="用户名">
-
-<input class="input" placeholder="邮箱">
-
-<input class="input" type="password" placeholder="密码">
-
-<button class="login-btn" onclick="alert('注册成功')">
-注册
-</button>
-
-<div class="signup">
-<a href="#" onclick="location.reload()">返回登录</a>
-</div>
-`;
-
+<main class="app">
+  <aside class="sidebar">
+    <section class="brand"><div class="logo">AI</div><div><h1>智聊助手</h1><p>微信风格 · 自动回复 · 本地保存</p></div></section>
+    <section class="panel"><div class="panel-title">回复风格</div><div class="chip-row" id="toneList"><button class="chip active" data-tone="professional">高级专业</button><button class="chip" data-tone="friendly">温柔朋友</button><button class="chip" data-tone="creative">创意策划</button><button class="chip" data-tone="code">代码顾问</button></div></section>
+    <section class="panel"><div class="panel-title">聊天统计</div><div class="stats"><div class="stat"><strong id="msgCount">0</strong><span>消息数量</span></div><div class="stat"><strong id="sessionCount">1</strong><span>会话数量</span></div></div></section>
+    <div class="history" id="historyList"></div>
+    <div class="actions"><button class="btn primary" id="newChatBtn">新建聊天</button><button class="btn ghost" id="exportBtn">导出记录</button><button class="btn danger" id="clearBtn">清空记录</button></div>
+  </aside>
+  <section class="chat">
+    <header class="chat-header"><div class="assistant"><div class="avatar">🤖</div><div><h2>微信 AI 自动回复</h2><p class="status"><i></i>在线，正在读取你的消息并智能回复</p></div></div><div class="header-tools"><input class="search" id="searchInput" placeholder="搜索聊天记录"></div></header>
+    <div class="messages" id="messages"></div>
+    <div class="typing" id="typing">AI 正在思考<span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="quick"><button data-text="帮我写一段高级自我介绍">高级自我介绍</button><button data-text="今天心情不好，安慰我一下">情绪安慰</button><button data-text="帮我规划一个学习计划">学习计划</button><button data-text="解释一下这个网站怎么保存聊天记录">保存原理</button></div>
+    <form class="composer" id="chatForm"><textarea id="messageInput" placeholder="输入消息，按 Enter 发送，Shift+Enter 换行"></textarea><button class="send" id="sendBtn" type="submit">发送</button></form>
+  </section>
+</main>
+<script>
+const STORAGE_KEY = 'smart-wechat-ai-chat-v1';
+const defaultSessions = [{id:crypto.randomUUID(),title:'新的 AI 对话',createdAt:Date.now(),updatedAt:Date.now(),messages:[{role:'ai',content:'你好，我是你的高级 AI 自动回复助手。你发送消息后，我会读取内容、分析关键词、结合上下文自动回复，并把聊天记录安全保存在当前浏览器 localStorage 中。',time:Date.now()}]}];
+let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {tone:'professional',activeId:defaultSessions[0].id,sessions:defaultSessions};
+const $ = s => document.querySelector(s);
+const messagesEl = $('#messages'), inputEl = $('#messageInput'), typingEl = $('#typing');
+function save(){localStorage.setItem(STORAGE_KEY, JSON.stringify(state));renderSidebar();}
+function activeSession(){return state.sessions.find(s=>s.id===state.activeId) || state.sessions[0];}
+function formatTime(ts){return new Intl.DateTimeFormat('zh-CN',{hour:'2-digit',minute:'2-digit'}).format(ts);}
+function escapeHtml(str){return str.replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));}
+function renderMessages(filter=''){
+  const session = activeSession();
+  const list = session.messages.filter(m=>!filter || m.content.toLowerCase().includes(filter.toLowerCase()));
+  messagesEl.innerHTML = list.map(m=>`<div class="message ${m.role==='user'?'user':'ai'}"><div class="bubble">${escapeHtml(m.content)}<div class="time">${formatTime(m.time)}</div></div></div>`).join('');
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
+function renderSidebar(){
+  $('#msgCount').textContent = state.sessions.reduce((n,s)=>n+s.messages.length,0);
+  $('#sessionCount').textContent = state.sessions.length;
+  $('#historyList').innerHTML = state.sessions.sort((a,b)=>b.updatedAt-a.updatedAt).map(s=>`<button class="history-item ${s.id===state.activeId?'active':''}" data-id="${s.id}"><strong>${escapeHtml(s.title)}</strong><span>${escapeHtml((s.messages.at(-1)||{}).content||'暂无消息')}</span></button>`).join('');
+}
+function makeReply(text){
+  const lower = text.toLowerCase();
+  const memory = activeSession().messages.slice(-6).map(m=>m.content).join(' / ');
+  let reply = '我已经读取到你的消息：' + text + '\n\n';
+  if(/代码|网站|html|css|javascript|js|程序/.test(lower)) reply += '从代码顾问角度看，建议你把功能拆成：界面层、消息状态、自动回复逻辑、本地存储、导出与清空。这样结构清晰，也方便以后接入真正的大模型 API。';
+  else if(/难过|伤心|焦虑|心情不好|累/.test(text)) reply += '先抱抱你。你现在的感受是真实的，不需要马上变好。可以先深呼吸一分钟，把最困扰你的事情写成一句话，我们再一步一步拆开解决。';
+  else if(/计划|学习|目标|安排/.test(text)) reply += '我建议用 3 步计划：① 明确一个可衡量目标；② 拆成每天 25 分钟的小任务；③ 每晚复盘完成度并调整明天任务。坚持比一次性爆发更重要。';
+  else if(/你好|hello|hi/.test(lower)) reply += '你好呀！我可以陪你聊天、写文案、做计划、解释代码，也可以把所有对话保存在本地，刷新页面也不会丢失。';
+  else reply += '我会根据你的表达继续分析：你可能需要一个清晰、直接、可执行的回答。我的建议是先确认目标，再列出 2-3 个可操作步骤，最后保存关键结论方便复盘。';
+  const tones = {professional:'\n\n【高级专业版】我会保持结构化、重点明确、语气可靠。',friendly:'\n\n【温柔朋友版】别急，我会像朋友一样慢慢陪你聊。',creative:'\n\n【创意策划版】我们可以把这个想法包装得更有吸引力。',code:'\n\n【代码顾问版】如果你愿意，我还能继续帮你扩展成可连接后端/API 的版本。'};
+  return reply + tones[state.tone] + '\n\n最近上下文摘要：' + memory.slice(-120);
+}
+function addMessage(role, content){
+  const s = activeSession();
+  s.messages.push({role,content,time:Date.now()});
+  if(role==='user' && s.title==='新的 AI 对话') s.title = content.slice(0,18);
+  s.updatedAt = Date.now(); save(); renderMessages($('#searchInput').value);
+}
+function sendMessage(text){
+  if(!text.trim()) return;
+  addMessage('user', text.trim()); inputEl.value=''; typingEl.classList.add('show'); $('#sendBtn').disabled=true;
+  setTimeout(()=>{typingEl.classList.remove('show'); addMessage('ai', makeReply(text.trim())); $('#sendBtn').disabled=false; inputEl.focus();}, 650 + Math.min(text.length*12, 900));
+}
+$('#chatForm').addEventListener('submit',e=>{e.preventDefault();sendMessage(inputEl.value);});
+inputEl.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage(inputEl.value);}});
+document.querySelectorAll('.quick button').forEach(b=>b.onclick=()=>sendMessage(b.dataset.text));
+$('#toneList').addEventListener('click',e=>{if(e.target.dataset.tone){state.tone=e.target.dataset.tone;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.tone===state.tone));save();}});
+$('#historyList').addEventListener('click',e=>{const btn=e.target.closest('.history-item');if(btn){state.activeId=btn.dataset.id;save();renderMessages($('#searchInput').value);}});
+$('#newChatBtn').onclick=()=>{const s={id:crypto.randomUUID(),title:'新的 AI 对话',createdAt:Date.now(),updatedAt:Date.now(),messages:[{role:'ai',content:'新的聊天已创建。请发送你的第一条消息，我会自动回复并保存记录。',time:Date.now()}]};state.sessions.unshift(s);state.activeId=s.id;save();renderMessages();};
+$('#clearBtn').onclick=()=>{if(confirm('确定清空所有聊天记录吗？')){state={tone:state.tone,activeId:defaultSessions[0].id,sessions:structuredClone(defaultSessions)};save();renderMessages();}};
+$('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ai-chat-history.json';a.click();URL.revokeObjectURL(a.href);};
+$('#searchInput').addEventListener('input',e=>renderMessages(e.target.value));
+renderSidebar();renderMessages();
 </script>
+</body>
 </html>
